@@ -1,0 +1,120 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start Development Servers",
+			"type": "shell",
+			"command": "echo 'Starting Loan Origination System...' && echo 'Frontend: http://localhost:5173' && echo 'Flask API: http://localhost:5000' && echo 'FastAPI: http://localhost:8000' && echo 'FastAPI Docs: http://localhost:8000/docs'",
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Start Frontend Dev Server",
+			"type": "shell",
+			"command": "npm run dev",
+			"options": {
+				"cwd": "${workspaceFolder}/frontend"
+			},
+			"group": "build",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Start Flask API",
+			"type": "shell",
+			"command": "/Users/desmoriarty/OneDrive/Python/LoanOrig/.venv/bin/python flask_app.py",
+			"options": {
+				"cwd": "${workspaceFolder}/backend"
+			},
+			"group": "build",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Start FastAPI Server",
+			"type": "shell",
+			"command": "/Users/desmoriarty/OneDrive/Python/LoanOrig/.venv/bin/python fastapi_app.py",
+			"options": {
+				"cwd": "${workspaceFolder}/backend"
+			},
+			"group": "build",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build Frontend",
+			"type": "shell",
+			"command": "npm run build",
+			"options": {
+				"cwd": "${workspaceFolder}/frontend"
+			},
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Initialize Database",
+			"type": "shell",
+			"command": "/Users/desmoriarty/OneDrive/Python/LoanOrig/.venv/bin/python db_utils.py init",
+			"options": {
+				"cwd": "${workspaceFolder}/backend"
+			},
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Test Database Connection",
+			"type": "shell",
+			"command": "/Users/desmoriarty/OneDrive/Python/LoanOrig/.venv/bin/python db_utils.py test",
+			"options": {
+				"cwd": "${workspaceFolder}/backend"
+			},
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Show Database Info",
+			"type": "shell",
+			"command": "/Users/desmoriarty/OneDrive/Python/LoanOrig/.venv/bin/python db_utils.py info",
+			"options": {
+				"cwd": "${workspaceFolder}/backend"
+			},
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Create Database Migration",
+			"type": "shell",
+			"command": "/Users/desmoriarty/OneDrive/Python/LoanOrig/.venv/bin/python -m alembic revision --autogenerate -m \"${input:migrationMessage}\"",
+			"options": {
+				"cwd": "${workspaceFolder}/backend"
+			},
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run Database Migrations",
+			"type": "shell",
+			"command": "/Users/desmoriarty/OneDrive/Python/LoanOrig/.venv/bin/python -m alembic upgrade head",
+			"options": {
+				"cwd": "${workspaceFolder}/backend"
+			},
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	],
+	"inputs": [
+		{
+			"id": "migrationMessage",
+			"description": "Enter migration message",
+			"default": "Add new migration",
+			"type": "promptString"
+		}
+	]
+}
