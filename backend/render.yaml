@@ -7,7 +7,7 @@ services:
     buildCommand: |
       python -m pip install --upgrade pip
       pip install --no-cache-dir -r requirements-wsgi.txt
-    startCommand: gunicorn app_wsgi:application --bind 0.0.0.0:$PORT --timeout 120
+    startCommand: gunicorn app_wsgi:application --bind 0.0.0.0:$PORT --timeout 120 --workers 1
     envVars:
       - key: ENVIRONMENT
         value: production
