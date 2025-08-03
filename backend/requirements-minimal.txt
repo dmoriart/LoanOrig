@@ -1,5 +1,4 @@
-# Absolute minimal requirements for Render - NO compilation needed
+# Absolute bare minimum - only pure Python packages
 fastapi==0.104.1
 uvicorn==0.24.0
 gunicorn==21.2.0
-pydantic==2.5.0

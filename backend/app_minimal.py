@@ -1,17 +1,15 @@
 """
 Ultra-minimal FastAPI app for Render deployment
-Absolute minimum dependencies to avoid any build issues
+No Pydantic models to avoid any potential compilation issues
 """
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import List, Optional
 import os
 
 # Create FastAPI app
 app = FastAPI(
     title="Loan Origination API", 
     version="1.0.0",
-    description="Minimal loan origination system API for deployment testing"
+    description="Minimal loan origination system API"
 )
 
 # CORS headers middleware
@@ -22,26 +20,6 @@ async def add_cors_header(request, call_next):
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "*"
     return response
-
-# Pydantic models
-class LoanApplication(BaseModel):
-    applicant_name: str
-    loan_amount: float
-    income: float
-    employment_status: str
-    credit_score: Optional[int] = None
-    purpose: Optional[str] = None
-
-class LoanResponse(BaseModel):
-    id: int
-    applicant_name: str
-    loan_amount: float
-    income: float
-    employment_status: str
-    status: str
-    application_date: str
-    credit_score: Optional[int] = None
-    purpose: Optional[str] = None
 
 # In-memory loan storage for demo
 LOANS = [
@@ -89,29 +67,29 @@ async def health_check():
     }
 
 # Get all loans
-@app.get("/api/v1/loans", response_model=List[LoanResponse])
+@app.get("/api/v1/loans")
 async def get_loans():
-    return LOANS
+    return {"loans": LOANS, "count": len(LOANS)}
 
 # Create loan
-@app.post("/api/v1/loans", response_model=LoanResponse)
-async def create_loan(loan: LoanApplication):
+@app.post("/api/v1/loans")
+async def create_loan(loan_data: dict):
     new_loan = {
         "id": len(LOANS) + 1,
-        "applicant_name": loan.applicant_name,
-        "loan_amount": loan.loan_amount,
-        "income": loan.income,
-        "employment_status": loan.employment_status,
+        "applicant_name": loan_data.get("applicant_name", "Unknown"),
+        "loan_amount": loan_data.get("loan_amount", 0),
+        "income": loan_data.get("income", 0),
+        "employment_status": loan_data.get("employment_status", "unknown"),
         "status": "submitted",
         "application_date": "2025-08-03",
-        "credit_score": loan.credit_score,
-        "purpose": loan.purpose
+        "credit_score": loan_data.get("credit_score"),
+        "purpose": loan_data.get("purpose")
     }
     LOANS.append(new_loan)
     return new_loan
 
 # Get loan by ID
-@app.get("/api/v1/loans/{loan_id}", response_model=LoanResponse)
+@app.get("/api/v1/loans/{loan_id}")
 async def get_loan(loan_id: int):
     for loan in LOANS:
         if loan["id"] == loan_id:

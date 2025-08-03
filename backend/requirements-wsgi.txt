@@ -1,0 +1,2 @@
+# Only gunicorn - pure Python WSGI server
+gunicorn==21.2.0
