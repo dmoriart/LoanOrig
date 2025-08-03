@@ -3,12 +3,13 @@ services:
   - type: web
     name: loan-origination-api
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn fastapi_app:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT
+    plan: starter
+    buildCommand: |
+      python -m pip install --upgrade pip
+      pip install --no-cache-dir -r requirements-minimal.txt
+    startCommand: gunicorn app_minimal:app -w 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --timeout 120
     envVars:
-      - key: DATABASE_URL
-        sync: false
-      - key: SECRET_KEY
-        generateValue: true
-      - key: FRONTEND_URL
-        value: https://loan-origination.netlify.app
+      - key: ENVIRONMENT
+        value: production
+      - key: PORT
+        value: 8000
