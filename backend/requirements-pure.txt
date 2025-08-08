@@ -1,0 +1,8 @@
+fastapi==0.95.2
+pydantic==1.10.13
+sqlalchemy==2.0.23
+pg8000==1.30.5
+uvicorn==0.22.0
+python-dotenv==1.0.0
+alembic==1.12.1
+gunicorn==21.2.0
